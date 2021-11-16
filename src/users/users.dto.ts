@@ -1,6 +1,6 @@
 export class UsersDto {
-  id: number;
+  id: string;
   email: string;
-  password: number;
+  password: string;
   user_type: string;
 }

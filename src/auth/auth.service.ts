@@ -1,29 +1,42 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
+
 import { User } from 'src/users/user.entity';
-import { UsersDto } from 'src/users/users.dto';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    private userService: UsersService,
+    private jwtService: JwtService,
   ) {}
 
-  async create(user: User) {
+  async validateUser(email: string, plainTextPassword: string): Promise<any> {
     try {
-      const returnUser = await this.usersRepository.save(
-        this.usersRepository.create(user),
+      const user = await this.userService.findOne(email);
+      await this.verifyPassword(plainTextPassword, user.password);
+      const { password, ...result } = user;
+
+      return result;
+    } catch (error) {
+      throw new HttpException(
+        '비밀번호가 일치하지 않습니다.',
+        HttpStatus.BAD_REQUEST,
       );
-      return returnUser;
-    } catch (e) {
-      console.log(e);
     }
   }
+  private async verifyPassword(
+    plainTextPassword: string,
+    hashedPassword: string,
+  ) {
+    const isMatch = await bcrypt.compare(plainTextPassword, hashedPassword);
 
-  findAll() {
-    const result = this.usersRepository.find();
-    return result;
+    if (!isMatch) {
+      throw new HttpException(
+        'Wrong credentials provided',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }

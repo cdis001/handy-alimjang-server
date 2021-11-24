@@ -3,11 +3,11 @@ import { User } from './user.entity';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @UseGuards(AuthGuard('jwt'))
   @Get(':email')
   async GetFindOne(@Param('email') email: string) {
     console.log('email : ', email);

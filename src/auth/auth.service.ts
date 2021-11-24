@@ -50,7 +50,20 @@ export class AuthService {
     return {
       accessToken,
       httpOnly: true,
-      maxAge: Number(process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME),
+      maxAge: Number(process.env.JWT_ACCESS_EXPIRATION_TIME),
+    };
+  }
+
+  getRefreshToken(user: any) {
+    const payload = { email: user.email, sub: user.id };
+    const refreshToken = this.jwtService.sign(payload, {
+      secret: process.env.JWT_REFRESH_SECRET_KEY,
+      expiresIn: process.env.JWT_REFRESH_EXPIRATION_TIME,
+    });
+    return {
+      refreshToken,
+      httpOnly: true,
+      maxAge: Number(process.env.JWT_REFRESH_EXPIRATION_TIME),
     };
   }
 }

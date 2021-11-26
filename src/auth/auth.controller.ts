@@ -27,8 +27,9 @@ export class AuthController {
     await this.usersService.setRefreshToken(refreshToken, userInfo.id);
 
     res.cookie('Authorization', accessToken, accessOption);
-    res.cookie('Authorization', refreshToken, refreshOption);
+    res.cookie('Refresh', refreshToken, refreshOption);
 
+    console.log(accessToken);
     return userInfo;
   }
 }

@@ -8,6 +8,7 @@ import { LocalStrategy } from './strategy/local.strategy';
 import { AuthController } from './auth.controller';
 import { UsersService } from 'src/users/users.service';
 import { JwtStrategy } from './strategy/jwt.strategy';
+import { JwtRefreshStrategy } from './strategy/jwt-refresh.strategy';
 require('dotenv').config();
 
 @Module({
@@ -19,7 +20,13 @@ require('dotenv').config();
       signOptions: { expiresIn: '3600s' },
     }),
   ],
-  providers: [AuthService, LocalStrategy, UsersService, JwtStrategy],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    UsersService,
+    JwtStrategy,
+    JwtRefreshStrategy,
+  ],
   controllers: [AuthController],
 })
 export class AuthModule {}

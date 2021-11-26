@@ -44,7 +44,7 @@ export class AuthService {
     const payload = { email: user.email, sub: user.id };
     const accessToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_ACCESS_SECRET_KEY,
-      expiresIn: process.env.JWT_ACCESS_EXPIRATION_TIME,
+      expiresIn: `${process.env.JWT_ACCESS_EXPIRATION_TIME}s`,
     });
 
     return {
@@ -58,7 +58,7 @@ export class AuthService {
     const payload = { email: user.email, sub: user.id };
     const refreshToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_REFRESH_SECRET_KEY,
-      expiresIn: process.env.JWT_REFRESH_EXPIRATION_TIME,
+      expiresIn: `${process.env.JWT_REFRESH_EXPIRATION_TIME}s`,
     });
     return {
       refreshToken,

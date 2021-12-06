@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Body, Req, Res } from '@nestjs/common';
+import { Controller, Post, Req, Res } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
 import { UsersService } from 'src/users/users.service';
-import { JwtService } from '@nestjs/jwt';
 
 @Controller('auth')
 export class AuthController {
@@ -10,7 +9,6 @@ export class AuthController {
     private authService: AuthService,
     private usersService: UsersService,
   ) {}
-
   @Post('login')
   async login(@Req() req, @Res({ passthrough: true }) res) {
     const user = req.body;
@@ -28,8 +26,6 @@ export class AuthController {
 
     res.cookie('Authorization', accessToken, accessOption);
     res.cookie('Refresh', refreshToken, refreshOption);
-
-    console.log(accessToken);
     return userInfo;
   }
 }

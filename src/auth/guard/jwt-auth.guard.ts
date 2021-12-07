@@ -21,7 +21,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest();
     const res = context.switchToHttp().getResponse();
-
     try {
       const req_accessToken = req.cookies['Authorization'];
       const req_refreshToken = req.cookies['Refresh'];
@@ -35,10 +34,10 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
           secret: process.env.JWT_REFRESH_SECRET_KEY,
         });
       }
+
       const user = await this.usersService.getUserInfoIfRefreshToken(
         req_refreshToken,
       );
-
       const { accessToken, ...accessOption } =
         this.authService.getAccessToken(user);
 
@@ -46,6 +45,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
       return true;
     } catch (e) {
+      console.log('e.message : ', e.message);
       // res.clearCookie('Authorization');
       // res.clearCookie('Refresh');
       return false;

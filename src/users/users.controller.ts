@@ -12,6 +12,7 @@ export class UsersController {
   @Get(':email')
   async GetFindOne(@Param('email') email: string) {
     const user = await this.usersService.findOne(email);
-    return user;
+    const { hashedRefreshToken, password, ...userData } = user;
+    return userData;
   }
 }

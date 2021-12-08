@@ -12,13 +12,14 @@ export class User {
   email: string;
 
   @Column({ nullable: false })
+  @Exclude({ toPlainOnly: true })
   password: string;
 
   @Column({ nullable: false })
   user_type: string;
 
   @Column({ nullable: true })
-  @Exclude()
+  @Exclude({ toPlainOnly: true })
   hashedRefreshToken?: string;
 
   @BeforeInsert()

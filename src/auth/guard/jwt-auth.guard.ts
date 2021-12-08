@@ -45,15 +45,13 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
       return true;
     } catch (e) {
-      console.log('e.message : ', e.message);
-      // res.clearCookie('Authorization');
-      // res.clearCookie('Refresh');
+      res.clearCookie('Authorization');
+      res.clearCookie('Refresh');
       return false;
     }
   }
 
-  handleRequest(err, user) {
-    console.log('handle');
+  handleRequest(err, user, info: Error) {
     if (err || !user) {
       throw new UnauthorizedException();
     }

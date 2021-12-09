@@ -8,6 +8,9 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guard/jwt-auth.guard';
+import { TeacherController } from './teacher/teacher.controller';
+import { TeacherService } from './teacher/teacher.service';
+import { TeacherModule } from './teacher/teacher.module';
 
 @Module({
   imports: [
@@ -25,8 +28,9 @@ import { JwtAuthGuard } from './auth/guard/jwt-auth.guard';
     }),
     UsersModule,
     AuthModule,
+    TeacherModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, TeacherController],
   providers: [
     AppService,
     { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },

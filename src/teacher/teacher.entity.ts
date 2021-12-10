@@ -9,15 +9,9 @@ export class Teacher {
   @Column({ nullable: false })
   name: string;
 
-  @Column({ nullable: false })
-  email: string;
-
   @Column({ nullable: true })
   phone_number: string;
 
   @Column({ nullable: false })
   user_id: number;
-
-  @Column({ nullable: true })
-  student_id: number;
 }

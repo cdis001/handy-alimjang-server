@@ -22,6 +22,10 @@ export class UsersService {
     }
   }
 
+  async create(user: User) {
+    return await this.usersRepository.save(this.usersRepository.create(user));
+  }
+
   async setRefreshToken(refreshToken: string, id: number) {
     const hashedRefreshToken = refreshToken;
     await this.usersRepository.update(id, {

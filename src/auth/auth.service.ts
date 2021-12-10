@@ -2,13 +2,42 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from 'src/users/users.service';
+import { TeacherService } from 'src/teacher/teacher.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     private userService: UsersService,
+    private teacherService: TeacherService,
   ) {}
+
+  async register(user: any) {
+    const find_email = await this.userService.findOne(user.email);
+
+    if (find_email) {
+      throw new HttpException(
+        '이미 사용하고 있는 아이디입니다.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    try {
+      const return_user = await this.userService.create(user);
+
+      if (return_user.user_type == 'teacher') {
+        const user_type = await this.teacherService.create({
+          ...user,
+          user_id: return_user.id,
+        });
+      }
+    } catch (e) {
+      throw new HttpException(
+        '회원가입에 실패했습니다.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 
   async validateUser(email: string, plainTextPassword: string): Promise<any> {
     try {

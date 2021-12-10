@@ -3,10 +3,14 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 
 import { UsersModule } from 'src/users/users.module';
+import { TeacherModule } from 'src/teacher/teacher.module';
+
 import { AuthService } from './auth.service';
+
 import { LocalStrategy } from './strategy/local.strategy';
 import { AuthController } from './auth.controller';
 import { UsersService } from 'src/users/users.service';
+import { TeacherService } from 'src/teacher/teacher.service';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { JwtRefreshStrategy } from './strategy/jwt-refresh.strategy';
 require('dotenv').config();
@@ -16,6 +20,7 @@ require('dotenv').config();
   imports: [
     UsersModule,
     PassportModule,
+    TeacherModule,
     JwtModule.register({
       secret: process.env.JWT_ACCESS_SECRET_KEY,
       signOptions: { expiresIn: '3600s' },
@@ -27,6 +32,7 @@ require('dotenv').config();
     UsersService,
     JwtStrategy,
     JwtRefreshStrategy,
+    TeacherService,
   ],
   controllers: [AuthController],
   exports: [AuthService, JwtModule],

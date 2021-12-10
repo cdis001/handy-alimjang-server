@@ -1,4 +1,4 @@
-import { Controller, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
 import { UsersService } from 'src/users/users.service';
@@ -27,5 +27,10 @@ export class AuthController {
     res.cookie('Authorization', accessToken, accessOption);
     res.cookie('Refresh', refreshToken, refreshOption);
     return userInfo;
+  }
+
+  @Post('register')
+  async register(@Body() user: any): Promise<any> {
+    return this.authService.register(user);
   }
 }

@@ -11,6 +11,9 @@ import { JwtAuthGuard } from './auth/guard/jwt-auth.guard';
 import { TeacherController } from './teacher/teacher.controller';
 import { TeacherService } from './teacher/teacher.service';
 import { TeacherModule } from './teacher/teacher.module';
+import { StudentController } from './student/student.controller';
+import { StudentService } from './student/student.service';
+import { StudentModule } from './student/student.module';
 
 @Module({
   imports: [
@@ -29,11 +32,13 @@ import { TeacherModule } from './teacher/teacher.module';
     UsersModule,
     AuthModule,
     TeacherModule,
+    StudentModule,
   ],
-  controllers: [AppController, TeacherController],
+  controllers: [AppController, TeacherController, StudentController],
   providers: [
     AppService,
     { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },
+    StudentService,
   ],
 })
 export class AppModule {}

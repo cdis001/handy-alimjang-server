@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from 'src/users/users.service';
 import { TeacherService } from 'src/teacher/teacher.service';
+import { StudentService } from 'src/student/student.service';
 
 @Injectable()
 export class AuthService {
@@ -10,6 +11,7 @@ export class AuthService {
     private jwtService: JwtService,
     private userService: UsersService,
     private teacherService: TeacherService,
+    private studentService: StudentService,
   ) {}
 
   async register(user: any) {
@@ -25,8 +27,15 @@ export class AuthService {
     try {
       const return_user = await this.userService.create(user);
 
-      if (return_user.user_type == 'teacher') {
-        const user_type = await this.teacherService.create({
+      const user_type = return_user.user_type;
+
+      if (user_type == 'teacher') {
+        await this.teacherService.create({
+          ...user,
+          user_id: return_user.id,
+        });
+      } else if (user_type == 'student') {
+        await this.studentService.create({
           ...user,
           user_id: return_user.id,
         });

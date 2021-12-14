@@ -26,6 +26,7 @@ import { StudentModule } from './student/student.module';
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       entities: [],
+      logging: true,
       synchronize: true,
       autoLoadEntities: true,
     }),

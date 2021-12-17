@@ -1,7 +1,9 @@
-import { Body, Controller, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res, SetMetadata } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
 import { UsersService } from 'src/users/users.service';
+
+export const Roles = (...roles: string[]) => SetMetadata('roles', roles);
 
 @Controller('auth')
 export class AuthController {
@@ -10,6 +12,7 @@ export class AuthController {
     private usersService: UsersService,
   ) {}
   @Post('login')
+  @Roles('none')
   async login(@Req() req, @Res({ passthrough: true }) res) {
     const user = req.body;
     const { email, password } = user;

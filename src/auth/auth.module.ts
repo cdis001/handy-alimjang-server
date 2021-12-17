@@ -40,6 +40,6 @@ require('dotenv').config();
     StudentService,
   ],
   controllers: [AuthController],
-  exports: [AuthService, JwtModule],
+  exports: [AuthService, JwtModule, UsersService],
 })
 export class AuthModule {}

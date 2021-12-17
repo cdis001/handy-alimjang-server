@@ -7,6 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { AuthService } from '../auth.service';
 
+import { Reflector } from '@nestjs/core';
 import { UsersService } from 'src/users/users.service';
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -14,11 +15,17 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     private jwtService: JwtService,
     private usersService: UsersService,
     private authService: AuthService,
+    private reflector: Reflector,
   ) {
     super();
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    const roles = this.reflector.get<string[]>('roles', context.getHandler());
+    if (roles) {
+      return true;
+    }
+
     const req = context.switchToHttp().getRequest();
     const res = context.switchToHttp().getResponse();
     try {

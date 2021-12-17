@@ -26,7 +26,6 @@ import { StudentModule } from './student/student.module';
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       entities: [],
-      logging: true,
       synchronize: true,
       autoLoadEntities: true,
     }),
@@ -38,8 +37,9 @@ import { StudentModule } from './student/student.module';
   controllers: [AppController, TeacherController, StudentController],
   providers: [
     AppService,
-    { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },
     StudentService,
+    { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },
+    { provide: APP_GUARD, useClass: JwtAuthGuard },
   ],
 })
 export class AppModule {}

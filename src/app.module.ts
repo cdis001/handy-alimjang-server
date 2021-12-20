@@ -14,6 +14,9 @@ import { TeacherModule } from './teacher/teacher.module';
 import { StudentController } from './student/student.controller';
 import { StudentService } from './student/student.service';
 import { StudentModule } from './student/student.module';
+import { RoomController } from './room/room.controller';
+import { RoomService } from './room/room.service';
+import { RoomModule } from './room/room.module';
 
 @Module({
   imports: [
@@ -26,6 +29,7 @@ import { StudentModule } from './student/student.module';
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       entities: [],
+      logging: true,
       synchronize: true,
       autoLoadEntities: true,
     }),
@@ -33,13 +37,15 @@ import { StudentModule } from './student/student.module';
     AuthModule,
     TeacherModule,
     StudentModule,
+    RoomModule,
   ],
-  controllers: [AppController, TeacherController, StudentController],
+  controllers: [AppController, TeacherController, StudentController, RoomController],
   providers: [
     AppService,
     StudentService,
     { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },
     { provide: APP_GUARD, useClass: JwtAuthGuard },
+    RoomService,
   ],
 })
 export class AppModule {}

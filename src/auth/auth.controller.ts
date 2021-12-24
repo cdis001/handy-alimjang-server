@@ -32,6 +32,7 @@ export class AuthController {
     return userInfo;
   }
 
+  @Roles('none')
   @Post('register')
   async register(@Body() user: any): Promise<any> {
     return this.authService.register(user);

@@ -17,6 +17,9 @@ import { StudentModule } from './student/student.module';
 import { RoomController } from './room/room.controller';
 import { RoomService } from './room/room.service';
 import { RoomModule } from './room/room.module';
+import { RoomUsersController } from './room_users/room_users.controller';
+import { RoomUsersService } from './room_users/room_users.service';
+import { RoomUsersModule } from './room_users/room_users.module';
 
 @Module({
   imports: [
@@ -38,14 +41,16 @@ import { RoomModule } from './room/room.module';
     TeacherModule,
     StudentModule,
     RoomModule,
+    RoomUsersModule,
   ],
-  controllers: [AppController, TeacherController, StudentController, RoomController],
+  controllers: [AppController, TeacherController, StudentController, RoomController, RoomUsersController],
   providers: [
     AppService,
     StudentService,
     { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },
     { provide: APP_GUARD, useClass: JwtAuthGuard },
     RoomService,
+    RoomUsersService,
   ],
 })
 export class AppModule {}

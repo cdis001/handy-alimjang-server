@@ -7,9 +7,9 @@ import { Student } from './student.entity';
 export class StudentService {
   constructor(
     @InjectRepository(Student)
-    private teacherRepository: Repository<Student>,
+    private studentRepository: Repository<Student>,
   ) {}
   async create(student: Student) {
-    return await this.teacherRepository.save(student);
+    return await this.studentRepository.save(student);
   }
 }

@@ -1,5 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  ManyToMany,
+} from 'typeorm';
 import { Exclude } from 'class-transformer';
+
+import { Room } from 'src/room/room.entity';
 
 @Entity()
 export class Student {
@@ -14,4 +22,7 @@ export class Student {
 
   @Column({ nullable: false })
   user_id: number;
+
+  @ManyToMany(() => Room, (room) => room.students)
+  rooms: Room[];
 }

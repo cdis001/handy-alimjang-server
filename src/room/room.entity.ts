@@ -1,10 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToOne,
-  OneToMany,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 import { Student } from 'src/student/student.entity';
 
@@ -18,7 +12,4 @@ export class Room {
 
   @Column()
   roomName: String;
-
-  @OneToMany(() => Student, (student) => student.rooms)
-  students: Student[];
 }

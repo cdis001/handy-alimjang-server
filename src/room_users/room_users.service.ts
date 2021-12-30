@@ -1,13 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, getManager, getConnection } from 'typeorm';
 import { roomUser } from './room_users.entity';
+import { Student } from 'src/student/student.entity';
 
 @Injectable()
 export class RoomUsersService {
   constructor(
     @InjectRepository(roomUser)
     private roomUsersRepository: Repository<roomUser>,
+
+    @InjectRepository(Student)
+    private studentsRepository: Repository<Student>,
   ) {}
 
   async create(roomUser: any) {
@@ -31,18 +35,34 @@ export class RoomUsersService {
     }
     return success;
   }
-  async findRoomUsers(room_id: any) {
+  async findRoomUsers(room: any) {
     try {
-      const room_users_info = await this.roomUsersRepository
-        .createQueryBuilder('room_user')
+      const room_users_info = await getConnection()
+        .createQueryBuilder()
+        .select('room_user')
+        .from(roomUser, 'room_user')
         .leftJoinAndSelect(
           'student',
           'student',
           'student.id = room_user.student_id',
         )
-        .select(['room_user.id', 'room_user.student_id', 'student.name'])
-        .where('room_id = :id', { id: room_id.room_id })
+        .where('room_id = :id', { id: room.room_id })
         .getMany();
+      // const room_users_info = await this.roomUsersRepository
+      //   .createQueryBuilder('rmu')
+      //   .leftJoinAndSelect('rmu.students', 'student')
+      //   .select(['rmu.id', 'rmu.student_id', 'student.name'])
+      //   .where('room_id = :id', { id: room.room_id })
+      //   .getMany();
+
+      for (let dddd of room_users_info) {
+        const studentInfo = await this.studentsRepository.findOne({
+          id: dddd.student_id,
+        });
+
+        dddd.students = { ...studentInfo };
+      }
+
       return room_users_info;
     } catch (e) {}
   }

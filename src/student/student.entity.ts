@@ -7,8 +7,7 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 
-import { Room } from 'src/room/room.entity';
-
+import { roomUser } from 'src/room_users/room_users.entity';
 @Entity()
 export class Student {
   @PrimaryGeneratedColumn()
@@ -23,6 +22,6 @@ export class Student {
   @Column({ nullable: false })
   user_id: number;
 
-  @ManyToMany(() => Room, (room) => room.students)
-  rooms: Room[];
+  @ManyToOne((type) => roomUser, (roomUser) => roomUser.students)
+  rooms: roomUser;
 }

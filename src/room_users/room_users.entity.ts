@@ -20,7 +20,6 @@ export class roomUser {
   @Column()
   room_id: number;
 
-  @OneToMany(() => Student, (student) => student.name)
-  @JoinColumn({ name: 'student.name' })
-  name: string;
+  @OneToMany((type) => Student, (student) => student.rooms)
+  students: Student;
 }

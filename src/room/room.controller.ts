@@ -1,14 +1,14 @@
 import { Controller, Req, Res, Get } from '@nestjs/common';
 
 import { RoomService } from './room.service';
-// import { RoomUsersService } from 'src/room_users/room_users.service';
+import { RoomUsersService } from 'src/room_users/room_users.service';
 
 @Controller('room')
 export class RoomController {
   constructor(
     private roomService: RoomService,
-  ) // private roomUsersService: RoomUsersService,
-  {}
+    private roomUsersService: RoomUsersService,
+  ) {}
 
   @Get('createRoom')
   async createRoom(@Req() req) {
@@ -18,14 +18,14 @@ export class RoomController {
     return success;
   }
 
-  // @Get('moveRoom')
-  // async moveRoom(@Req() req) {
-  //   const room_info = req.body;
+  @Get('moveRoom')
+  async moveRoom(@Req() req) {
+    const room_info = req.body;
 
-  //   const room_users_info = await this.roomUsersService.findRoomUsers(
-  //     room_info,
-  //   );
+    const room_users_info = await this.roomUsersService.findRoomUsers(
+      room_info,
+    );
 
-  //   return room_users_info;
-  // }
+    return room_users_info;
+  }
 }

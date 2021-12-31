@@ -25,10 +25,18 @@ export class RoomUsersService {
     return success;
   }
 
-  async addRoomUser(roomUser: any) {
+  async addRoomUsers(roomUsers: any) {
     let success = false;
     try {
-      await this.roomUsersRepository.save(roomUser);
+      const room_id = roomUsers.room_id;
+      const students = roomUsers.students.split(',');
+
+      let temp = {};
+
+      for (let student_id of students) {
+        temp = { room_id, student_id };
+        await this.roomUsersRepository.save(temp);
+      }
       success = true;
     } catch (e) {
       success = false;
@@ -48,19 +56,13 @@ export class RoomUsersService {
         )
         .where('room_id = :id', { id: room.room_id })
         .getMany();
-      // const room_users_info = await this.roomUsersRepository
-      //   .createQueryBuilder('rmu')
-      //   .leftJoinAndSelect('rmu.students', 'student')
-      //   .select(['rmu.id', 'rmu.student_id', 'student.name'])
-      //   .where('room_id = :id', { id: room.room_id })
-      //   .getMany();
 
-      for (let dddd of room_users_info) {
+      for (let student of room_users_info) {
         const studentInfo = await this.studentsRepository.findOne({
-          id: dddd.student_id,
+          id: student.student_id,
         });
 
-        dddd.students = { ...studentInfo };
+        student.students = { ...studentInfo };
       }
 
       return room_users_info;

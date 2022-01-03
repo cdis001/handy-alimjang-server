@@ -20,6 +20,9 @@ import { RoomModule } from './room/room.module';
 import { RoomUsersController } from './room_users/room_users.controller';
 import { RoomUsersService } from './room_users/room_users.service';
 import { RoomUsersModule } from './room_users/room_users.module';
+import { NoticeController } from './notice/notice.controller';
+import { NoticeService } from './notice/notice.service';
+import { NoticeModule } from './notice/notice.module';
 
 @Module({
   imports: [
@@ -42,8 +45,9 @@ import { RoomUsersModule } from './room_users/room_users.module';
     StudentModule,
     RoomModule,
     RoomUsersModule,
+    NoticeModule,
   ],
-  controllers: [AppController, TeacherController, StudentController, RoomController, RoomUsersController],
+  controllers: [AppController, TeacherController, StudentController, RoomController, RoomUsersController, NoticeController],
   providers: [
     AppService,
     StudentService,
@@ -51,6 +55,7 @@ import { RoomUsersModule } from './room_users/room_users.module';
     { provide: APP_GUARD, useClass: JwtAuthGuard },
     RoomService,
     RoomUsersService,
+    NoticeService,
   ],
 })
 export class AppModule {}

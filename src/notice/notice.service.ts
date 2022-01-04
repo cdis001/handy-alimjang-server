@@ -10,4 +10,13 @@ export class NoticeService {
     @InjectRepository(Notice)
     private noticeRepository: Repository<Notice>,
   ) {}
+
+  async addNotice(notice: Notice) {
+    try {
+      const result = this.noticeRepository.save(notice);
+      return result;
+    } catch (e) {
+      return e;
+    }
+  }
 }

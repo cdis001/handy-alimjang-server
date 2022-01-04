@@ -9,5 +9,9 @@ export class NoticeController {
   @Get('addNotice')
   async addNotice(@Req() req) {
     const notice = req.body;
+
+    const result = this.noticeService.addNotice(notice);
+
+    return result;
   }
 }

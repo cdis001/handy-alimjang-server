@@ -1,4 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Notice {
@@ -6,8 +11,11 @@ export class Notice {
   id: number;
 
   @Column()
-  teacher_id: number;
+  room_id: number;
 
   @Column()
-  roomName: String;
+  comment: String;
+
+  @CreateDateColumn()
+  date: Date;
 }

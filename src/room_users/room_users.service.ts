@@ -64,8 +64,14 @@ export class RoomUsersService {
 
         student.students = { ...studentInfo };
       }
+      let students = [];
+      const size = room_users_info.length;
 
-      return room_users_info;
+      for (let i = 0; i < size; i++) {
+        students[i] = room_users_info[i].students;
+      }
+
+      return students;
     } catch (e) {}
   }
 }

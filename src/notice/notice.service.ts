@@ -19,4 +19,28 @@ export class NoticeService {
       return e;
     }
   }
+
+  async updateNotice(notice: Notice) {
+    try {
+      const notice_id = notice.id;
+
+      const result = this.noticeRepository.update(notice_id, notice);
+
+      return result;
+    } catch (e) {
+      return e;
+    }
+  }
+
+  async deleteNotice(notice: Notice) {
+    try {
+      const notice_id = notice.id;
+
+      const result = this.noticeRepository.delete(notice_id);
+
+      return result;
+    } catch (e) {
+      return e;
+    }
+  }
 }

@@ -14,4 +14,22 @@ export class NoticeController {
 
     return result;
   }
+
+  @Get('updateNotice')
+  async updateNotice(@Req() req) {
+    const notice = req.body;
+
+    const result = this.noticeService.updateNotice(notice);
+
+    return result;
+  }
+
+  @Get('deleteNotice')
+  async deleteNotice(@Req() req) {
+    const notice = req.body;
+
+    const result = this.noticeService.deleteNotice(notice);
+
+    return result;
+  }
 }

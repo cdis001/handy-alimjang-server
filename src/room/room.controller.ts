@@ -34,4 +34,11 @@ export class RoomController {
 
     return info;
   }
+
+  @Get('deleteRoom')
+  async deleteRoom(@Req() req) {
+    const room = req.body;
+
+    const result = await this.roomService.deleteRoom(room);
+  }
 }

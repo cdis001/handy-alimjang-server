@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-
+import { Repository, Connection } from 'typeorm';
 import { Room } from './room.entity';
 import { roomUser } from 'src/room_users/room_users.entity';
+import { Notice } from 'src/notice/notice.entity';
 
 @Injectable()
 export class RoomService {
@@ -12,6 +12,9 @@ export class RoomService {
     private roomRepository: Repository<Room>,
     @InjectRepository(roomUser)
     private roomUserRepository: Repository<roomUser>,
+    @InjectRepository(Notice)
+    private noticeRepository: Repository<Notice>,
+    private connection: Connection,
   ) {}
   async createRoom(room: any) {
     let success = false;
@@ -32,6 +35,27 @@ export class RoomService {
       success = false;
     } finally {
       return success;
+    }
+  }
+  async deleteRoom(room: any) {
+    const queryRunner = this.connection.createQueryRunner();
+    await queryRunner.connect();
+
+    await queryRunner.startTransaction();
+
+    const room_id = room.room_id;
+
+    try {
+      await this.roomRepository.delete(room_id);
+
+      await this.roomUserRepository.delete(room_id);
+
+      await this.noticeRepository.delete(room_id);
+      return true;
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+    } finally {
+      queryRunner.release();
     }
   }
 }

@@ -28,9 +28,9 @@ import { NoticeModule } from './notice/notice.module';
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      type: 'postgres',
       host: process.env.DATABASE_URL,
-      port: 3306,
+      port: 5432,
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
@@ -47,7 +47,14 @@ import { NoticeModule } from './notice/notice.module';
     RoomUsersModule,
     NoticeModule,
   ],
-  controllers: [AppController, TeacherController, StudentController, RoomController, RoomUsersController, NoticeController],
+  controllers: [
+    AppController,
+    TeacherController,
+    StudentController,
+    RoomController,
+    RoomUsersController,
+    NoticeController,
+  ],
   providers: [
     AppService,
     StudentService,

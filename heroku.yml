@@ -1,5 +1,6 @@
 build:
   docker:
     web: docker-compose.yml
+
 run:
   web: bundle exec handy -C config/handy.rb
